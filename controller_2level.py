@@ -15,6 +15,7 @@ from pox.lib.addresses import IPAddr
 log = core.getLogger()
 
 
+# controller that installs two level routing table on each switch that connects
 class install_2level(object):
 
     def __init__(self, topo):
@@ -31,6 +32,7 @@ class install_2level(object):
         else:
             self.install_pod(connection, dpid, name)
 
+    # add a single route with the specified ip, mask and output port
     def add_route(self, connection, ip, mask, port, priority=100):
         msg = nx.nx_flow_mod()
         msg.priority = priority
@@ -39,10 +41,12 @@ class install_2level(object):
         msg.actions.append(of.ofp_action_output(port=port))
         connection.send(msg)
     
+    # install routes onto a core switch
     def install_core(self, connection, dpid, name):
         for pod in range(self.k):
             self.add_route(connection, '10.%d.0.0'%pod, '255.255.0.0', pod+1)
 
+    # install routes onto a pod switch
     def install_pod(self, connection, dpid, name):
         pod, switch = topo_ft.pod_name_to_location(name)
         # upper layer pod switch

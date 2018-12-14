@@ -3,6 +3,8 @@
 from mininet.topo import Topo
 import re
 
+# utility functions to assign/get DPIDs, ip addresses, mac addresses etc.
+
 def location_to_dpid(core=None, pod=None, switch=None):
     if core is not None:
         return '0000000010%02x0000'%core
@@ -41,6 +43,7 @@ def location_to_mac(pod, switch, host):
 
 class FatTreeTopo(Topo):
 
+    # build a fat tree topo of size k
     def __init__(self, k):
         super(FatTreeTopo, self).__init__()
 
@@ -57,6 +60,7 @@ class FatTreeTopo(Topo):
                 self.addLink(s, pods[i][stride_num])
 
     
+    # makes a single pod with its k switches and (k/2)^2 hosts
     def make_pod(self, pod_num):
         lower_layer_switches = [
             self.addSwitch('p%d_s%d'%(pod_num, i), dpid=location_to_dpid(pod=pod_num, switch=i))

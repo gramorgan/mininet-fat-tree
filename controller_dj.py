@@ -13,6 +13,7 @@ from pox.lib.addresses import IPAddr
 
 log = core.getLogger()
 
+# manages dijkstra routing for a single switch
 class DijkstraSwitch(object):
 
     def __init__(self, connection, dpid, topo):
@@ -22,6 +23,7 @@ class DijkstraSwitch(object):
         self.topo = topo
         self.name = topo_ft.dpid_to_name(self.dpid)
 
+        # dstip to output port mapping for this node
         self.table = {}
 
         _, prev = dijkstra(topo, self.name)
@@ -48,6 +50,7 @@ class DijkstraSwitch(object):
         self.connection.send(msg)
 
 
+# run dijkstra on a tolopogy with a given source node
 def dijkstra(topo, source):
     nodes = topo.nodes()
     links = topo.links()
@@ -76,6 +79,7 @@ def dijkstra(topo, source):
     return dist, prev
 
 
+# register this controller to install dijkstra routing on each switch that connects
 class install_dj(object):
 
     def __init__(self, topo):
@@ -99,6 +103,7 @@ class install_dj(object):
             connection.send(msg)
 
 
+# register this controller to run dijkstra routing from inside pox
 class route_dj(object):
 
     def __init__(self, topo):

@@ -51,7 +51,7 @@ def print_stats(filename, results):
 	print '\tthroughput standard deviation: %s'%sizeof_fmt(stdev, suffix='bits/sec')
 	print
 
-# run iperf test as specified by input file with name inpuf_filname
+# run iperf test as specified by input file with name input_filname
 def run_iperf(net, input_filename):
 	flows = []
 	with open(input_filename) as infile:
