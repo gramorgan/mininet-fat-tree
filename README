@@ -9,8 +9,10 @@ Install it by cloning the repo onto a mininet vm and symlinking topo_ft.py, cont
 
 `run_net.py` is the entry point for my program. Run it with `sudo ./run_net.py controller [--iperf]` where controller is either 'dijkstra' or '2level'. Add the --iperf flag to run the iperf test on all input files in the inputs folder.
 
-The fat tree topology is described in topo_ft.py. screenshot.png contains a screenshot of this topology loaded into mininet's miniedit program which should prove that it builds correctly.
+The fat tree topology is described in topo_ft.py. screenshot_topo.png contains a screenshot of this topology loaded into mininet's miniedit program which should prove that it builds correctly.
 
 The dijkstra routing and two-level routing pox controllers are in `controller_dj.py` and `controller_2level.py` respectively. One other pox controller is also included, that's `fakearp.py`. fakearp answers ARP requests from hosts with the correct IP address for each destination as assigned by the topology. This means that technically all hosts are on the same subnet, but it seemed way easier to do this than to setup static ARP table entries on each host. This doesn't affect the performance of either routing algorithm, so I think it's alright.
 
 running `run_net.py` with the --iperf flag opens iperf server and client process on all the hosts as specified in the input files, then prints the mean and standard deviation in throughput across the whole network.
+
+I've included screenshots of my program running on both two-level and dijkstra routing in screenshot_2level.png and screenshot_dj.png respectively. These show that my network is fully connected and that iperf correctly gives performance information for each input file.
